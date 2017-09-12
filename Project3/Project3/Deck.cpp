@@ -1,4 +1,7 @@
+#include "Card.h"
+
 class Deck {
+	Card deck[52];
 
 	Deck() {
 
@@ -11,4 +14,5 @@ class Deck {
 	Card drawCard() {
 
 	}
+
 };

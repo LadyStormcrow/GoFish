@@ -11,6 +11,14 @@ class Card {
 		status = 0; 
 	}
 
+	int getCardValue() {
+		return cardValue; 
+	}
+
+	int getCardSuite() {
+		return cardSuite; 
+	}
+
 	int cardStatus() {
 		return status;
 	}
