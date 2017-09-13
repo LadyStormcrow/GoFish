@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Card.h"
 
 #ifndef Deck_hpp
@@ -11,7 +12,7 @@ public:
 	Card drawCard();
 
 private: 
-	int deck; 
+	std::vector<Card> deck;
 };
 
 #endif

@@ -1,53 +1,53 @@
 #include <string>
+#include "Player.h"
 #include "Card.h"
 #include <vector>
 
-class Player {
-	std::string playerName; 
-	int score; 
-	std::vector<Card> hand; 
 
-	Player(std::string _name) {
-		playerName = _name; 
-		score = 0; 
-	}
+Player::Player(std::string _name) {
+	playerName = _name; 
+	score = 0; 
+}
 
-	void updateScore() {
-		score++;
-	}
+void Player::updateScore() {
+	score++;
+}
 
-	void updateHand(int _index, Card _card) {
-		hand[_index] = _card; 
-	}
+void Player::updateHand(int _index, Card _card) {
+	hand[_index] = _card; 
+}
 
-	void removeCard(int _index) {
-		hand.erase(hand.begin() + _index); 
-	}
-
-	void addCard(Card _card) {
-		hand.push_back(_card); 
-	}
-
-	std::vector<Card> getHand() {
-		return hand; 
-	}
-
-	bool emptyHand() {
-		if (hand.empty()) {
-			return true; 
-		}
-		else {
-			return false; 
+void Player::removeCard(Card _card) {
+	for(int i = 0; i < hand.size(); i++) {
+		if (hand[i].getCardSuite() == _card.getCardSuite() && hand[i].getCardValue() == _card.getCardValue()) {
+			hand.erase(hand.begin() + i); 
 		}
 	}
+}
 
-	bool checkCard(Card _card) {
+void Player::addCard(Card _card) {
+	hand.push_back(_card); 
+}
 
-		for (int i = 0; i < hand.size(); i++) { //change 7 to hand length
-			if (hand[i].getCardValue() == _card.getCardValue()) {
-				return true; 
-			}
-		}
+std::vector<Card> Player::getHand() {
+	return hand; 
+}
+
+bool Player::emptyHand() {
+	if (hand.empty()) {
+		return true; 
+	}
+	else {
 		return false; 
 	}
+}
+
+bool Player::checkCard(Card _card) {
+
+	for (int i = 0; i < hand.size(); i++) { 
+		if (hand[i].getCardValue() == _card.getCardValue()) {
+			return true; 
+		}
+	}
+	return false; 
 }

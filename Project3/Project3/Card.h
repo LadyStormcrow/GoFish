@@ -4,7 +4,7 @@
 class Card {
 
 public: 
-	Card(); 
+	Card(int _cardValue, int _suite);
 	int cardStatus(); 
 	void changeStatus(int _status);
 	bool inPlay(); 

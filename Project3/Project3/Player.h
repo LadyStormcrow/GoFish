@@ -11,9 +11,9 @@ public:
 	Player(std::string _name);
 	void updateScore();
 	void updateHand(int _index, Card _card); 
-	Card* getHand(); 
+	std::vector<Card> getHand(); 
 	bool checkCard(Card _card); 
-	void removeCard(int _index); 
+	void removeCard(Card _card); 
 	void addCard(Card _card); 
 	bool emptyHand(); 
 

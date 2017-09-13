@@ -9,13 +9,16 @@
 
 class Set {
 public: 
-	Set(); 
+	Set(int _value); 
 	void createSet(Card _cardOne, Card _cardTwo); 
 	void addCard(Card _card); 
 	bool completeSet(); 
+	int getSetValue(); 
+	void removeCard(Card _card); 
 
 private:
 	std::vector<Card> cardSet; 
+	int setValue; 
 
 };
 
