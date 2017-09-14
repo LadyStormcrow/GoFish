@@ -3,6 +3,10 @@
 #include "Card.h"
 #include <vector>
 
+Player::Player() {
+	playerName = "Unknown";
+	score = 0;
+}
 
 Player::Player(std::string _name) {
 	playerName = _name; 
@@ -23,6 +27,9 @@ void Player::removeCard(Card _card) {
 			hand.erase(hand.begin() + i); 
 		}
 	}
+
+	Set removeCard = getSet(_card.getCardValue()); 
+	removeCard.removeCard(); 
 }
 
 void Player::addCard(Card _card) {
@@ -31,6 +38,15 @@ void Player::addCard(Card _card) {
 
 std::vector<Card> Player::getHand() {
 	return hand; 
+}
+
+Card Player::getCard(int _card) {
+
+	for (int i = 0; i < hand.size(); i++) {
+		if (hand[i].getCardValue() == _card) {
+			return hand[i]; 
+		}
+	}
 }
 
 bool Player::emptyHand() {
@@ -50,4 +66,30 @@ bool Player::checkCard(Card _card) {
 		}
 	}
 	return false; 
+}
+
+void Player::addSet(int _cardValue) {
+
+	Set newSet(_cardValue);
+	newSet.addCard();
+	mySets.push_back(newSet);
+
+}
+
+bool Player::checkForSet(int _setValue) {
+
+	for (int i = 0; i < mySets.size(); i++) {
+		if (mySets[i].getSetValue() == _setValue) {
+			return true;
+		}
+	}
+	return false;
+}
+
+Set Player::getSet(int _setValue) {
+	for (int i = 0; i < mySets.size(); i++) {
+		if (mySets[i].getSetValue() == _setValue) {
+			return mySets[i];
+		}
+	}
 }

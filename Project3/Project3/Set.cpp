@@ -1,31 +1,28 @@
 #include <vector>
+#include "Player.h"
 #include "Set.h"
 #include "Card.h"
 
 Set::Set(int _value) {
 	setValue = _value; 
+	cardAmount = 0; 
 }
 
-void Set::createSet(Card _cardOne, Card _cardTwo) {
-	cardSet.push_back(_cardOne); 
-	cardSet.push_back(_cardTwo); 
-}
-
-void Set::addCard(Card _card) {
-	cardSet.push_back(_card); 
+void Set::addCard() {
+	cardAmount++; 
 }
 
 int Set::getSetValue() {
 	return setValue; 
 }
 
-void Set::removeCard(Card _card) {
-	auto found = std::find(cardSet.begin(), cardSet.end(), _card); 
-	cardSet.erase(found); 
+
+void Set::removeCard() {
+	cardAmount--; 
 }
 
 bool Set::completeSet() {
-	if (cardSet.size() == 4) {
+	if (cardAmount == 4) {
 		return true;
 	}
 	else {

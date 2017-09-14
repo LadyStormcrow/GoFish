@@ -18,6 +18,7 @@ void Deck::shuffleDeck() {
 
 Card Deck::drawCard() {
 	Card topCard = deck[0]; 
+	topCard.changeStatus(1); 
 	deck.erase(deck.begin()); 
-	return topCard
+	return topCard; 
 }

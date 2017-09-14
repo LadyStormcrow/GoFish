@@ -10,15 +10,15 @@
 class Set {
 public: 
 	Set(int _value); 
-	void createSet(Card _cardOne, Card _cardTwo); 
-	void addCard(Card _card); 
+	void addCard(); 
 	bool completeSet(); 
 	int getSetValue(); 
-	void removeCard(Card _card); 
+	void removeCard(); 
 
 private:
 	std::vector<Card> cardSet; 
 	int setValue; 
+	int cardAmount;
 
 };
 
