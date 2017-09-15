@@ -10,64 +10,32 @@ Game::Game(std::string _playerOne, std::string _playerTwo) {
 	playerTwo = Player(_playerTwo);
 	cardDeck = Deck(); 
 	goFish = false;
+	sets = 12; 
+	cardDeck.shuffleDeck();
 }
 
+//return the game deck in use
 Deck Game::getDeck() {
 	return cardDeck; 
 }
 
-void Game::dealHands() {
-	cardDeck.shuffleDeck();
-
-	for (int i = 0; i < 7; i++) {
-		Card card = cardDeck.drawCard();
-		if (playerOne.checkForSet(card.getCardValue())) {
-			playerOne.getSet(card.getCardValue()).addCard();
-		}
-		else {
-			playerOne.addSet(card.getCardValue()); 
-		}
-		playerOne.addCard(card); 
-	}
-
-	for (int j = 0; j < 7; j++) {
-		Card card = cardDeck.drawCard();
-		if (playerTwo.checkForSet(card.getCardValue())) {
-			playerTwo.getSet(card.getCardValue()).addCard();
-		}
-		else {
-			playerTwo.addSet(card.getCardValue());
-		}
-		playerTwo.addCard(card);
-	}
-}
-
-void Game::dealPlayerNewHand(Player _player) {
+//deal a hand to the player
+void Game::dealHand(Player &_player) { 
 
 	int range = std::min(cardDeck.deckSize(), 7); 
 
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < range; i++) {
 		Card card = cardDeck.drawCard();
-		if (_player.checkForSet(card.getCardValue())) {
-			_player.getSet(card.getCardValue()).addCard();
-		}
-		else {
-			_player.addSet(card.getCardValue());
-		}
-		_player.addCard(card);
+		_player.addNewCard(card); 
 	}
 }
 
-void Game::drawCard(Player &_player) {
-	Card newCard = cardDeck.drawCard(); 
-	_player.addCard(newCard); 
-}
-
-
+//check for go fish
 bool Game::checkGoFish() {
 	return goFish; 
 }
 
+//check if a player has a card the other player asked for
 void Game::checkForCard(Player &_playerOne, Player &_playerTwo, Card &_card) {
 
 	if (_playerTwo.checkCard(_card)) {
@@ -76,9 +44,55 @@ void Game::checkForCard(Player &_playerOne, Player &_playerTwo, Card &_card) {
 		goFish = false;
 	}
 	else {
-		Card newCard = cardDeck.drawCard(); 
-		_playerOne.addNewCard(newCard); 
+		if (!(cardDeck.emptyDeck())) {
+			Card newCard = cardDeck.drawCard();
+			_playerOne.addNewCard(newCard);
+		}
 		goFish = true; 
 	}
 
+}
+
+//check if there is already a set in the hand, might happen when a card is drawn
+void Game::checkHandForSet(Player &_player, std::vector<Set> setLst) {
+	for (int j = 0; j < setLst.size(); j++) {
+		int value;
+		if (setLst[j].completeSet()) {
+			_player.updateScore();
+			for (int i = 0; i < 4; i++) {
+				value = setLst[j].getSetValue();
+				Card cardToRemove = _player.getCard(value);
+				_player.removeCard(cardToRemove);
+			}
+			_player.removeSet(value);
+			sets--;
+		}
+	}
+}
+
+//check the amount of sets remaining
+int Game::setsRemaining() {
+	return sets; 
+}
+
+//remove the cards that are in set
+void Game::removeSetFromHand(Player &_player, int _value) {
+	_player.updateScore();
+	for (int i = 0; i < 4; i++) {
+		Card cardToRemove = _player.getCard(_value);
+		_player.removeCard(cardToRemove);
+	}
+	_player.removeSet(_value);
+	sets--;
+}
+
+//check if a card exists in the player's hand
+bool Game::checkForCardInHand(Player _player, int _cardValue) {
+	std::vector<Card> playerHand = _player.getHand(); 
+	for (int i = 0; i < _player.handSize(); i ++) {
+		if (playerHand[i].getCardValue() == _cardValue) {
+			return true; 
+		}
+	}
+	return false; 
 }

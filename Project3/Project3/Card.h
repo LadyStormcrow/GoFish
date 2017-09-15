@@ -8,8 +8,6 @@ public:
 	int cardStatus(); 
 	void changeStatus(int _status);
 	bool inPlay(); 
-	bool inDeck(); 
-	bool inSet(); 
 	int getCardValue(); 
 	int getCardSuite(); 
 

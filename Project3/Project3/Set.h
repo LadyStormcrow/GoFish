@@ -1,3 +1,4 @@
+/*SET: The sets of cards of the same value*/
 #pragma once
 
 #include <vector>

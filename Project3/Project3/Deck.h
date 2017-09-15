@@ -12,6 +12,7 @@ public:
 	Card drawCard();
 	int deckSize(); 
 	bool emptyDeck(); 
+	std::vector<Card> getDeck(); 
 
 private: 
 	std::vector<Card> deck;
