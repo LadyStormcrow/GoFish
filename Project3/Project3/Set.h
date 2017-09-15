@@ -13,7 +13,7 @@ public:
 	void addCard(); 
 	bool completeSet(); 
 	int getSetValue(); 
-	void removeCard(); 
+	void removeSetCard(); 
 
 private:
 	std::vector<Card> cardSet; 

@@ -22,3 +22,16 @@ Card Deck::drawCard() {
 	deck.erase(deck.begin()); 
 	return topCard; 
 }
+
+int Deck::deckSize() {
+	return deck.size(); 
+}
+
+bool Deck::emptyDeck() {
+	if (deck.size() == 0) {
+		return true;
+	}
+	else {
+		return false; 
+	}
+}

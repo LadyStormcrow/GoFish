@@ -10,6 +10,8 @@ public:
 	Deck(); 
 	void shuffleDeck(); 
 	Card drawCard();
+	int deckSize(); 
+	bool emptyDeck(); 
 
 private: 
 	std::vector<Card> deck;

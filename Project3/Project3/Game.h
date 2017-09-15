@@ -12,11 +12,12 @@
 class Game {
 public:
 	Game(std::string _playerOne, std::string _playerTwo);
+	Deck getDeck(); 
 	bool checkGoFish(); 
-	void checkForCard(Player _playerOne, Player _playerTwo, Card _card);
+	void checkForCard(Player &_playerOne, Player &_playerTwo, Card &_card);
 	void dealHands(); 
 	void dealPlayerNewHand(Player _player);
-	void drawCard(Player _player);
+	void drawCard(Player &_player);
 	Player playerOne;
 	Player playerTwo;
 

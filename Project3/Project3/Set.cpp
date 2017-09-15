@@ -17,7 +17,7 @@ int Set::getSetValue() {
 }
 
 
-void Set::removeCard() {
+void Set::removeSetCard() {
 	cardAmount--; 
 }
 

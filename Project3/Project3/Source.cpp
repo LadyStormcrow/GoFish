@@ -10,9 +10,11 @@ int main() {
 	std::string playerName; 
 	int card; 
 	int turn = 1; 
+	int sets = 13; 
 	bool inprogress = true; 
+	bool win = false; 
 
-	std::cout << "GoFish!\n\n"; 
+	std::cout << "Welcome to GoFish!\n\n\tYou (Player One) will begin. Just ask what if Player Two has a card of the same value.\n\tIf they do, go again, or if not, it's Go Fish!\n\n"; 
 
 	std::cout << "What's your name? "; 
 	std::cin >> playerName; 
@@ -27,29 +29,35 @@ int main() {
 
 		if (turn == 1) {
 
-			std::vector<Card> playerHand = myGame.playerOne.getHand();
+			if (myGame.playerOne.emptyHand()) {
+				if (!(myGame.getDeck().emptyDeck())) {
+					myGame.dealPlayerNewHand(myGame.playerOne);
+				}
+			}
 
+			std::vector<Card> playerHand = myGame.playerOne.getHand();
+			std::cout << "\n"; 
 			for (int i = 0; i < playerHand.size(); i++) {
 				std::cout << playerHand[i].getCardValue() << " ";
 			}
 
-			std::cout << "\nAsk for a: ";
+			std::cout << "\nAsk Player Two for a: ";
 			std::cin >> card;
 
 			myGame.checkForCard(myGame.playerOne, myGame.playerTwo, myGame.playerOne.getCard(card));
-
+			
 			if (myGame.checkGoFish()) {
 				turn = 0;
-				myGame.drawCard(myGame.playerOne); 
 				std::cout << "\nGo Fish! \n"; 
 			}
 			else if (!(myGame.checkGoFish())) {
+				myGame.playerTwo.getSet(card).removeSetCard();
 				if (myGame.playerOne.checkForSet(card)) {
-					myGame.playerOne.getSet(card).addCard();
 					if (myGame.playerOne.getSet(card).completeSet()) {
 						myGame.playerOne.updateScore();
 						for (int i = 0; i < 4; i++) {
-							Card cardToRemove = myGame.playerOne.getCard(myGame.playerOne.getCard(card).getCardValue());
+							sets--; 
+							Card cardToRemove = myGame.playerOne.getCard(card);
 							myGame.playerOne.removeCard(cardToRemove);
 						}
 					}
@@ -62,29 +70,37 @@ int main() {
 		}
 		else if (turn == 0) {
 
+			if (myGame.playerTwo.emptyHand()) {
+				if (!(myGame.getDeck().emptyDeck())) {
+					myGame.dealPlayerNewHand(myGame.playerTwo);
+				}
+			}
+
+			//Computer randomly selects card
 			std::vector<Card> computerHand = myGame.playerTwo.getHand();
 			int randCard = rand() % computerHand.size();
 			Card computerCard = computerHand[randCard];
 
+			//display computer cards (debug)
+			std::cout << "\n";
 			for (int i = 0; i < computerHand.size(); i++) {
 				std::cout << computerHand[i].getCardValue() << " ";
 			}
 
-			std::cout << "\nPlayer Two asked for a " << computerCard.getCardValue(); 
+			std::cout << "\nPlayer Two asked for a " << computerCard.getCardValue() << std::endl;
 
 			myGame.checkForCard(myGame.playerTwo, myGame.playerOne, computerCard);
 
 			if (myGame.checkGoFish()) {
 				turn = 1;
-				myGame.drawCard(myGame.playerTwo); 
 				std::cout << "\nGo Fish!\n"; 
 			}
 			else if (!(myGame.checkGoFish())) {
 				if (myGame.playerTwo.checkForSet(computerCard.getCardValue())) {
-					myGame.playerTwo.getSet(computerCard.getCardValue()).addCard();
 					if (myGame.playerTwo.getSet(computerCard.getCardValue()).completeSet()) {
 						myGame.playerTwo.updateScore();
 						for (int i = 0; i < 4; i++) {
+							sets--; 
 							Card cardToRemove = myGame.playerTwo.getCard(computerCard.getCardValue());
 							myGame.playerTwo.removeCard(cardToRemove);
 						}
@@ -96,20 +112,20 @@ int main() {
 				}
 			}
 		}
+
+		if (sets == 0) {
+			inprogress = false; 
+		}
 	}
 
-	//3. Get card or 'Go Fish'
-		//3(i) If get card - ask for another card from hand
-			//Check for card set
-			//if complete set made - score + 1 and remove cards from hand 
-			//else create set or add card to set
-		//3(ii) Else computer turn
-
-	//Check if computer had 7 cards
-	//4. Computer asks for card
-		//Repeat step 3
-
-
+	if (!(inprogress)) {
+		if (myGame.playerOne.getScore() > myGame.playerTwo.getScore()) {
+			std::cout << "\n\nCONGRATULATIONS!! YOU WIN!!"; 
+		}
+		else if (myGame.playerOne.getScore() < myGame.playerTwo.getScore()) {
+			std::cout << "\n\nSorry, Player Two won this time :("; 
+		}
+	}
 
 	system("pause"); 
 
